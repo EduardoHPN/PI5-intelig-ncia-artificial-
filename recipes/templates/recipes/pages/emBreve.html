@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Em Breve</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            padding: 20px;
+        }
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .images {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .images img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .images img:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">EM BREVE</div>
+        <div class="images">
+            <img src="https://thumbs.dreamstime.com/b/sob-fita-da-constru%C3%A7%C3%A3o-57238539.jpg" alt="Imagem 1">
+            <img src="https://thumbs.dreamstime.com/b/sob-fita-da-constru%C3%A7%C3%A3o-57238539.jpg" alt="Imagem 2">
+            <img src="https://thumbs.dreamstime.com/b/sob-fita-da-constru%C3%A7%C3%A3o-57238539.jpg" alt="Imagem 3">
+        </div>
+    </div>
+</body>
+</html>
