@@ -9,3 +9,6 @@ def Penal(request):
 
 def EmBreve(request):
     return render(request, 'recipes/pages/emBreve.html', {})
+
+def Login(request):
+    return render(request, 'recipes/pages/login.html', {})
