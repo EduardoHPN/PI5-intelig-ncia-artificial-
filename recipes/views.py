@@ -12,3 +12,6 @@ def EmBreve(request):
 
 def Login(request):
     return render(request, 'recipes/pages/login.html', {})
+
+def Cadastro(request):
+    return render(request, 'recipes/pages/cadastro.html', {})

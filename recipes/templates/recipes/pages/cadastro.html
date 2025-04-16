@@ -102,7 +102,7 @@
       </form>
 
     <div class="link">
-      <a href="login.html">Já tem conta? Faça login</a>
+      <a href="/">Já tem conta? Faça login</a>
     </div>
   </div>
 
@@ -142,7 +142,7 @@
       firebase.auth().createUserWithEmailAndPassword(email, senha)
         .then((userCredential) => {
           alert("Cadastro realizado com sucesso!");
-          window.location.href = "login.html";
+          window.location.href = "/";
         })
         .catch((error) => {
           alert("Erro ao cadastrar: " + error.message);
