@@ -59,7 +59,7 @@
     // Inicializa o Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Captura o formulário e adiciona evento de submit
+    // inicialização de variaveis
     const loginForm = document.getElementById("loginForm");
     const modalSuccessful = document.getElementById("modal-success");
     const modalFailed = document.getElementById("modal-failed");
@@ -86,6 +86,29 @@
           //alert("Erro ao fazer login");
         });
     }
+
+    // Limpa a mensagem personalizada enquanto o usuário digita
+    email.addEventListener("input", () => {
+      email.setCustomValidity("");
+    });
+    // Define a mensagem personalizada 
+    email.addEventListener("invalid", () => {
+      if (!email.value) {
+        email.setCustomValidity("Por favor, preencha o campo de e-mail.");
+      } else if (email.validity.typeMismatch) {
+        email.setCustomValidity("Por favor, insira um e-mail válido com '@'.");
+      }
+    });
+
+    senha.addEventListener("input", () => {
+      senha.setCustomValidity("");
+    });
+    senha.addEventListener("invalid", () => {
+      if (!senha.value) {
+        senha.setCustomValidity("Por favor, preencha o campo de senha.");
+      }
+    });
+
 
     // Evento de submit do formulario
     loginForm.addEventListener("submit", function(e) {
