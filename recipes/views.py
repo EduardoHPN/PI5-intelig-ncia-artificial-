@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
+from recipes.forms import ClienteTesteForma
 import json
 
 
@@ -35,7 +36,12 @@ def home(request):
     return render(request, 'recipes/pages/home.html', {})
 
 def Penal(request):
-    return render(request, 'recipes/pages/penal_home.html',{})
+    form = ClienteTesteForma()
+    context = {
+        'form': form
+    }
+
+    return render(request, 'recipes/formulario/form1.html',context=context)
 
 def EmBreve(request):
     return render(request, 'recipes/pages/emBreve.html', {})
