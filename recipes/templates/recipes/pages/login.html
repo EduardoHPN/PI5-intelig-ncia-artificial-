@@ -20,17 +20,17 @@
       <input type="submit" id="entrar"value="Entrar">
     </form>
 
-    <div class="modal" id="modal-failed">
-      <div class="modal-inner">
-        <h2>Erro ao efetuar o login!</h2>
-        <button id="closeModalFailed">Fechar</button>
-      </div>
-    </div>  
-
     <div class="modal" id="modal-success">
       <div class="modal-inner">
         <h2>Sucesso ao efetuar o login!</h2>
         <button id="closeModalSuccess">Fechar</button>
+      </div>
+    </div>  
+
+    <div class="modal" id="modal-failed">
+      <div class="modal-inner">
+        <h2>Erro ao efetuar o login!</h2>
+        <button id="closeModalFailed">Fechar</button>
       </div>
     </div>  
 
@@ -70,6 +70,14 @@
     const closeBtnSuccess = document.getElementById("closeModalSuccess");
     const closeBtnFailed = document.getElementById("closeModalFailed");
 
+    // Evento de submit do formulario
+    loginForm.addEventListener("submit", function(e) {
+    e.preventDefault(); // Evita recarregar a página
+      const emailInput = email.value;
+      const senhaInput = senha.value;
+      realizarLogin(emailInput,senhaInput)
+    });  
+
     // Funcao para login
     function realizarLogin(email, senha) {
       firebase.auth().signInWithEmailAndPassword(email, senha)
@@ -77,15 +85,15 @@
           modalSuccessful.classList.add("open");
           //alert("Login realizado com sucesso!");
           // Redirecionar para outra página após login(2 segundos de cooldown)
-          setTimeout(()=> {
+         setTimeout(()=> {
             window.location.href = "/home/";
-          }, 2000);
+         }, 2000);
         })
         .catch((error) => {
           modalFailed.classList.add("open");
           //alert("Erro ao fazer login");
         });
-    }
+    }   
 
     // Limpa a mensagem personalizada enquanto o usuário digita
     email.addEventListener("input", () => {
@@ -108,17 +116,6 @@
         senha.setCustomValidity("Por favor, preencha o campo de senha.");
       }
     });
-
-
-    // Evento de submit do formulario
-    loginForm.addEventListener("submit", function(e) {
-      e.preventDefault(); // Evita recarregar a página
-
-      const emailInput = email.value;
-      const senhaInput = senha.value;
-      realizarLogin(email,senha)
-
-    });      
 
     // Funcao para fechar o pop-up
     function closeModal(modalElement){
