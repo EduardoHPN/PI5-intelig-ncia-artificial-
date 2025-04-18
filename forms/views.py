@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from forms.forms import PessoaForm
- 
+
 def register_view(request):
-    form = PessoaForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'forms/pages/register_view.html', context=context)
-    
+    if request.method == "GET":
+        form = PessoaForm()
+        context = {
+            'form': form
+        }
+        
+        return render(request, 'forms/pages/register_view.html', context=context)
+    else:
+        form - PessoaForm(request.POST)
