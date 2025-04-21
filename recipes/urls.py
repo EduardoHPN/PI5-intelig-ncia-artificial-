@@ -1,6 +1,6 @@
 from django.urls import path
-
 from recipes.views import home, Penal, EmBreve, Login, Cadastro, autenticar_usuario
+
 
 urlpatterns = [
     path('home/', home),
