@@ -111,3 +111,50 @@ class ArgumentacaoJuridicaForm(forms.ModelForm):
             'jurisprudencia_favorece',
             'jurisprudencia_descricao',
         ]
+
+
+class PedidoDefesaPenalForm(forms.ModelForm):
+    class Meta:
+        model = PedidoDefesaPenal
+        fields = [
+            'pedido_principal',
+            'outro_pedido_principal',
+            'incluir_absolvicao_como_alternativa',
+            'fundamentos_absolvicao',
+            'outro_fundamento_absolvicao',
+            'esta_preso',
+            'solicitar_alvara',
+            'pedir_medidas_cautelares',
+            'medidas_cautelares',
+            'incluir_pedido_subsidiario',
+            'pedido_subsidiario',
+            'requerer_nao_recebimento_denuncia',
+            'requerer_prioridade',
+            'requerer_acesso_provas',
+            'quais_provas',
+            'outros_pedidos',
+        ]
+
+        widgets = {
+            'fundamentos_absolvicao': forms.Select(),
+            'medidas_cautelares': forms.Textarea(attrs={'rows': 2}),
+            'pedido_subsidiario': forms.Textarea(attrs={'rows': 2}),
+            'quais_provas': forms.Textarea(attrs={'rows': 2}),
+            'outros_pedidos': forms.Textarea(attrs={'rows': 3}),
+        }
+
+
+
+class DocumentacaoEJurisprudenciaForm(forms.ModelForm):
+    class Meta:
+        model = DocumentacaoEJurisprudencia
+        fields = [
+            'certidao',
+            'laudo',
+            'testemunha_nome',
+            'testemunha_qualificacao',
+            'jurisprudencias',
+            'incluir_jurisprudencia_apoio',
+            'tese_juridica_apoio',
+            'julgado_especifico',
+        ]
