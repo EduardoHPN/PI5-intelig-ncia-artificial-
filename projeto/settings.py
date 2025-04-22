@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recipes',
-    'widget_tweaks'
+    'widget_tweaks',
+    "crispy_forms",
+    "crispy_bootstrap5",
 
 ]
 
@@ -53,6 +55,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'projeto.urls'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 TEMPLATES = [
     {

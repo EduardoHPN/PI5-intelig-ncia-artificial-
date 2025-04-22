@@ -2,16 +2,20 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
-from recipes.forms import ParagrafOneForm
+from recipes.forms import *
 from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from io import BytesIO
 from django.http import HttpResponse
 
-from recipes.scripts import buscar_clientes_por_uid, montar_script
+from recipes.scripts import *
 
 import json
 
+
+paragrafo1 = '0'
+paragrafo2 = '0'
+paragrago3 = '0'
 
 @csrf_exempt
 def autenticar_usuario(request):
@@ -63,27 +67,9 @@ def Penal(request):
         cliente.uid = uid
         cliente.save()
 
-        clientes = buscar_clientes_por_uid(uid)
-        paragrafo1 = montar_script(clientes)
-        clientes = buscar_clientes_por_uid(uid)
-        paragrafo1 = montar_script(clientes)
+        return redirect('preliminar')
+  
 
-        # Gera HTML com o texto
-        html = render_to_string('recipes/pdf_template.html', {'paragrafo': paragrafo1})
-
-        # Gera PDF a partir do HTML
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="peticao.pdf"'
-
-        pisa_status = pisa.CreatePDF(
-            src=html,
-            dest=response,
-        )
-
-        if pisa_status.err:
-            return HttpResponse('Erro ao gerar PDF', status=500)
-
-        return response
 
 
     return render(request, 'recipes/formulario/paragrafOne.html', {'form': form})
@@ -97,6 +83,165 @@ def Login(request):
 
 def Cadastro(request):
     return render(request, 'recipes/pages/cadastro.html', {})
+
+
+
+def defesa_preliminar(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+
+    if request.method == "GET":
+        form = DefesaPreliminarForm()
+        return render(request, 'recipes/formulario/DefesaPrelimitar.html', {'form': form})
+
+    form = DefesaPreliminarForm(request.POST)
+    if form.is_valid():
+        cliente = form.save(commit=False)
+        uid = request.session.get('uid')
+
+        if not uid:
+            return JsonResponse({'error': 'UID não encontrado na sessão'}, status=400)
+
+        cliente.uid = uid
+        cliente.save()
+
+        return redirect('argju')
+
+    return render(request, 'recipes/formulario/DefesaPrelimitar.html', {'form': form})
+
+
+
+
+
+def ArgJuridica(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+
+    campos_nulidades = [
+        "falha_cumprimento_legal",
+        "falha_qual",
+        "tratamento_injusto",
+        "irregularidade_prisao",
+        "direito_ampla_defesa",
+        "direito_ampla_defesa_como",
+        "defesa_ouvida",
+        "defesa_prejuizos"
+    ]
+
+
+    campos_excludentes = [
+    "estado_necessidade",
+    "estado_necessidade_justificativa",
+    "legitima_defesa",
+    "legitima_defesa_explicacao",
+    "erro_tipo_ou_proibicao",
+    "erro_explicacao",
+    "coercao_moral_irresistivel",
+    "coercao_moral_explicacao",
+    "outras_causas_excluintes",
+    "outras_causas_excluintes_descr"
+]
+
+    campos_materialidade = [
+        "prova_testemunhal_suficiente",
+        "testemunhas_falha",
+        "laudo_pericial_comprova",
+        "laudo_falha_ou_omissao",
+        "materialidade_nao_comprovada",
+        "materialidade_por_que",
+        "alibi_comprova_inocencia",
+        "alibi_descricao",
+        "acusacao_baseada_em_suposicoes",
+        "acusacao_natureza_provas"
+    ]
+
+    campos_principios = [
+    "presuncao_inocencia",
+    "presuncao_inocencia_como",
+    "devido_processo_legal",
+    "devido_processo_legal_impactos",
+    "proporcionalidade_violada",
+    "proporcionalidade_como",
+    "cerceamento_defesa",
+    "cerceamento_defesa_momento",
+    "dignidade_pessoa_humana",
+    "dignidade_pessoa_humana_aspecto",
+    "tratamento_diferenciado",
+    "tratamento_diferenciado_qual",
+    "julgamento_imparcial",
+    "julgamento_imparcial_como"
+]
+
+    campos_outros_argumentos = [
+        "circunstancia_relevante",
+        "circunstancia_descricao",
+        "pena_desproporcional",
+        "pena_desproporcional_justificativa",
+        "jurisprudencia_favorece",
+        "jurisprudencia_descricao"
+    ]
+
+    if request.method == "GET":
+        form = ArgumentacaoJuridicaForm()
+        return render(request, 'recipes/formulario/ArgumentacaoJuridica.html', {
+        'form': form,
+        'campos_nulidades': campos_nulidades,
+        'campos_materialidade': campos_materialidade,
+        'campos_excludentes': campos_excludentes,
+        'campos_principios': campos_principios,
+        'campos_outros_argumentos': campos_outros_argumentos,
+        })
+
+    form = ArgumentacaoJuridicaForm(request.POST)
+    if form.is_valid():
+        cliente = form.save(commit=False)
+        uid = request.session.get('uid')
+
+        if not uid:
+            return JsonResponse({'error': 'UID não encontrado na sessão'}, status=400)
+
+        cliente.uid = uid
+        cliente.save()
+
+        cliente1 = buscar_clientes_por_uid(uid)
+        cliente2 = buscar_clientes_por_uid2(uid)
+        cliente3 = buscar_clientes_por_uid3(uid)
+        paragrafo1 = montar_script(cliente1)
+        paragrafo2 = montar_script2(cliente2) 
+        paragrafo3 = montar_script3(cliente3)
+        
+         # Supondo que tenha outra função para gerar o parágrafo 2
+
+        # Gera HTML com os dois parágrafos
+        html = render_to_string('recipes/pdf_template.html', {
+            'paragrafo1': paragrafo1,
+            'paragrafo2': paragrafo2,
+            'paragrafo3': paragrafo3,
+        })
+        # Gera PDF a partir do HTML
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="peticao_completa.pdf"'
+
+        pisa_status = pisa.CreatePDF(
+            src=html,
+            dest=response,
+        )
+
+        if pisa_status.err:
+            return HttpResponse('Erro ao gerar PDF', status=500)
+
+        return response
+
+    return render(request, 'recipes/formulario/ArgumentacaoJuridica.html', {
+        'form': form,
+        'campos_nulidades': campos_nulidades,
+        'campos_materialidade': campos_materialidade,
+        'campos_excludentes': campos_excludentes,
+        'campos_principios': campos_principios,
+        'campos_outros_argumentos': campos_outros_argumentos,
+    })
+
+
 
 
 

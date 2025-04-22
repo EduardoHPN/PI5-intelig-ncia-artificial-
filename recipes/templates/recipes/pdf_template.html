@@ -16,12 +16,39 @@
             text-align: justify;
             white-space: pre-line;
         }
+        .paragrafo1, .paragrafo2, .paragrafo3 {
+            margin-top: 30px;
+        }
+        .paragrafo2 {
+            margin-left: 20px;
+        }
+        .paragrafo3 {
+            margin-left: 20px;
+        }
+        .titulo {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Petição Gerada</h1>
-    <div class="paragrafo">
-        {{ paragrafo }}
+
+    <div class="paragrafo1">
+        <div class="titulo">1.0 - Parágrafo 1</div>
+        <div class="paragrafo">{{ paragrafo1 }}</div>
     </div>
+
+    <div class="paragrafo2">
+        <div class="titulo">2.0 - Parágrafo 2</div>
+        <div class="paragrafo">{{ paragrafo2 }}</div>
+    </div>
+
+    <div class="paragrafo3">
+        <div class="titulo">3.0 - Argumentação Jurídica</div>
+        <div class="paragrafo">{{ paragrafo3 }}</div>
+    </div>
+
 </body>
 </html>
