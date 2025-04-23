@@ -11,5 +11,7 @@ urlpatterns = [
     path('recipes/1/', EmBreve),
     path('autenticar/', autenticar_usuario),
     path('recipes/arg-juridica/', ArgJuridica, name='argju'),
+    path('recipes/pedido/', pedido, name='pedido'),
+    path('recipes/documentacao/', documentos, name='documentos'),
     path('recipes/defesa-preliminar/', defesa_preliminar ,name='preliminar') # nova rota
 ]

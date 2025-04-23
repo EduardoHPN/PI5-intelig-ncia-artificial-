@@ -203,20 +203,99 @@ def ArgJuridica(request):
         cliente.uid = uid
         cliente.save()
 
+        return redirect('pedido')
+
+    return render(request, 'recipes/formulario/ArgumentacaoJuridica.html', {
+        'form': form,
+        'campos_nulidades': campos_nulidades,
+        'campos_materialidade': campos_materialidade,
+        'campos_excludentes': campos_excludentes,
+        'campos_principios': campos_principios,
+        'campos_outros_argumentos': campos_outros_argumentos,
+    })
+
+
+
+def pedido(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+
+    if request.method == "GET":
+        form = PedidoDefesaPenalForm()
+        return render(request, 'recipes/formulario/Pedido.html', {'form': form})
+
+    form = PedidoDefesaPenalForm(request.POST)
+    if form.is_valid():
+        cliente = form.save(commit=False)
+        uid = request.session.get('uid')
+
+        if not uid:
+            return JsonResponse({'error': 'UID não encontrado na sessão'}, status=400)
+
+        cliente.uid = uid
+        cliente.save()
+
+        
+
+        return redirect('documentos')
+    return render(request, 'recipes/formulario/Pedido.html', {'form': form})
+
+
+
+
+
+def PrimeiroParagrado(resquest):
+    uid = resquest.session.get('uid')
+    clientes = buscar_clientes_por_uid(uid=uid)
+    print(clientes)
+    
+
+def documentos(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
+
+    if request.method == "GET":
+        form = DocumentacaoEJurisprudenciaForm()
+        return render(request, 'recipes/formulario/documentacao.html', {'form': form})
+
+    form = DocumentacaoEJurisprudenciaForm(request.POST)
+    if form.is_valid():
+        cliente = form.save(commit=False)
+        uid = request.session.get('uid')
+
+        if not uid:
+            return JsonResponse({'error': 'UID não encontrado na sessão'}, status=400)
+
+        cliente.uid = uid
+        cliente.save()
+
+        return relotorio(uid=uid)
+    return render(request, 'recipes/formulario/documentaca.html', {'form': form})
+
+def relotorio(uid):
         cliente1 = buscar_clientes_por_uid(uid)
         cliente2 = buscar_clientes_por_uid2(uid)
         cliente3 = buscar_clientes_por_uid3(uid)
+        cliente4 = buscar_clientes_por_uid4(uid)
+        cliente5 = buscar_clientes_por_uid5(uid)
         paragrafo1 = montar_script(cliente1)
-        paragrafo2 = montar_script2(cliente2) 
-        paragrafo3 = montar_script3(cliente3)
-        
-         # Supondo que tenha outra função para gerar o parágrafo 2
+        paragrafo2 = montar_script2(cliente2, paragrafo1) 
+        paragrafo3 = montar_script3(cliente3, paragrafo2)
+        paragrafo4 = montar_script4(cliente4, paragrafo3)
+        paragrafo5 = montar_script5(cliente5, paragrafo3)
+        paragrafo6 = scriptfinal(paragrafo1, paragrafo2)
 
+
+        
+        print("gerando pdf")
         # Gera HTML com os dois parágrafos
         html = render_to_string('recipes/pdf_template.html', {
             'paragrafo1': paragrafo1,
             'paragrafo2': paragrafo2,
             'paragrafo3': paragrafo3,
+            'paragrafo4': paragrafo4,
+            'paragrafo5': paragrafo5,
+            'paragrafo6': paragrafo6,
         })
         # Gera PDF a partir do HTML
         response = HttpResponse(content_type='application/pdf')
@@ -232,22 +311,4 @@ def ArgJuridica(request):
 
         return response
 
-    return render(request, 'recipes/formulario/ArgumentacaoJuridica.html', {
-        'form': form,
-        'campos_nulidades': campos_nulidades,
-        'campos_materialidade': campos_materialidade,
-        'campos_excludentes': campos_excludentes,
-        'campos_principios': campos_principios,
-        'campos_outros_argumentos': campos_outros_argumentos,
-    })
 
-
-
-
-
-
-def PrimeiroParagrado(resquest):
-    uid = resquest.session.get('uid')
-    clientes = buscar_clientes_por_uid(uid=uid)
-    print(clientes)
-    

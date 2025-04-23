@@ -19,6 +19,15 @@ preso = (
     ('N', 'Não Preso')
 )
 
+FUNDAMENTO_ABSOLVICAO_CHOICES = [
+        ('inexistencia_fato', 'Inexistência do fato'),
+        ('fato_atipico', 'Fato atípico'),
+        ('excludente_ilicitude', 'Excludente de ilicitude'),
+        ('excludente_culpabilidade', 'Excludente de culpabilidade'),
+        ('ausencia_autoria', 'Ausência de indícios suficientes de autoria'),
+        ('outro', 'Outro (especificar)'),
+]
+
 class ClienteTeste(models.Model):
     nome = models.CharField(max_length=50)
     data_nasc = models.DateField(blank=True, null= True)
@@ -169,3 +178,130 @@ class ArgumentacaoJuridica(models.Model):
 
     def __str__(self):
         return f"Defesa de {self.id}"
+
+
+
+from django.db import models
+
+class PedidoDefesaPenal(models.Model):
+    uid = models.CharField(max_length=100, verbose_name="UID do usuário", blank=True, null=True)
+    # Principais pedidos
+    PEDIDO_PRINCIPAL_CHOICES = [
+        ('extincao', 'Extinção da ação penal'),
+        ('absolvicao_sumaria', 'Absolvição sumária'),
+        ('trancamento', 'Trancamento da ação penal'),
+        ('arquivamento', 'Arquivamento'),
+        ('outro', 'Outro (especificar)'),
+    ]
+    pedido_principal = models.CharField(max_length=30, choices=PEDIDO_PRINCIPAL_CHOICES)
+    outro_pedido_principal = models.CharField(max_length=255, blank=True, null=True)
+
+    # Pedido alternativo
+    incluir_absolvicao_como_alternativa = models.BooleanField()
+
+    # Fundamento para absolvição sumária
+    FUNDAMENTO_ABSOLVICAO_CHOICES = [
+        ('inexistencia_fato', 'Inexistência do fato'),
+        ('fato_atipico', 'Fato atípico'),
+        ('excludente_ilicitude', 'Excludente de ilicitude'),
+        ('excludente_culpabilidade', 'Excludente de culpabilidade'),
+        ('ausencia_autoria', 'Ausência de indícios suficientes de autoria'),
+        ('outro', 'Outro (especificar)'),
+    ]
+
+    # Alterando para ManyToManyField
+    fundamentos_absolvicao = models.CharField(
+        max_length=255,
+        choices=FUNDAMENTO_ABSOLVICAO_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    outro_fundamento_absolvicao = models.CharField(max_length=255, blank=True, null=True)
+
+    # Situação prisional
+    esta_preso = models.BooleanField()
+    solicitar_alvara = models.BooleanField(default=False)
+    pedir_medidas_cautelares = models.BooleanField(default=False)
+    medidas_cautelares = models.TextField(blank=True, null=True)
+
+    # Pedidos subsidiários
+    incluir_pedido_subsidiario = models.BooleanField(default=False)
+    pedido_subsidiario = models.TextField(blank=True, null=True)
+
+    # Não recebimento da denúncia
+    requerer_nao_recebimento_denuncia = models.BooleanField(default=False)
+
+    # Prioridade de tramitação
+    requerer_prioridade = models.BooleanField(default=False)
+
+    # Provas ou diligências complementares
+    requerer_acesso_provas = models.BooleanField(default=False)
+    quais_provas = models.TextField(blank=True, null=True)
+
+    # Observações finais
+    outros_pedidos = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Pedido de Defesa Penal #{self.id}"
+
+class FundamentoAbsolvicao(models.Model):
+    codigo = models.CharField(max_length=255, choices=FUNDAMENTO_ABSOLVICAO_CHOICES)
+    descricao = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.descricao
+
+
+
+
+class DocumentacaoEJurisprudencia(models.Model):
+    uid = models.CharField(max_length=100, verbose_name="UID do usuário", blank=True, null=True)
+    # 5.1 - Lista de documentos
+    certidao = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Descreva a certidão relevante para o caso (ex.: certidão de antecedentes criminais)."
+    )
+    laudo = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Descreva o laudo técnico ou pericial relevante para o caso (ex.: exame toxicológico, laudo do IML)."
+    )
+    testemunha_nome = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Nome completo da testemunha, se houver."
+    )
+    testemunha_qualificacao = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Qualificação da testemunha (ex.: profissão, relação com o réu)."
+    )
+    jurisprudencias = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Jurispurências específicas já separadas (ex.: número do processo ou ementa)."
+    )
+
+    # 5.2 - Jurisprudência de apoio
+    incluir_jurisprudencia_apoio = models.BooleanField(
+        default=False,
+        help_text="Deseja incluir jurisprudências de apoio para a sua tese principal?"
+    )
+    tese_juridica_apoio = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Qual a tese jurídica que deseja reforçar com jurisprudência? (ex.: ausência de justa causa)."
+    )
+    julgado_especifico = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Cole o número do HC, REsp ou a ementa do julgado específico que gostaria de citar."
+    )
+
+    def __str__(self):
+        return f"Documentação e Jurisprudência - Caso #{self.id}"
+
