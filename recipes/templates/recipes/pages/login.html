@@ -117,10 +117,10 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>ou utilize seu E-mail</span>
-                <input type="email" id="email" placeholder="E-mail" required>
-                <input type="password" id="senha" placeholder="Senha" required>
-                <input type="password" id="confirmarSenha" placeholder="Senha" required>
-                <button>Cadastre-se</button>
+                <input type="email" id="emailCad" placeholder="E-mail" required>
+                <input type="password" id="senhaCad" placeholder="Senha" required>
+                <input type="password" id="confirmarSenhaCad" placeholder="Confirme a Senha" required>
+                <input type="submit" value="Cadastrar">
             </form>
         </div>
         <div class="form-container sign-in">
@@ -132,8 +132,8 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>ou utilize seu E-mail</span>
-                <input type="email" id="email" placeholder="E-mail" required>
-                <input type="password" id="senha" placeholder="Senha" required>
+                <input type="email" id="emailLogin" placeholder="E-mail" required>
+                <input type="password" id="senhaLogin" placeholder="Senha" required>
                 <a href="#">Esqueceu a senha?</a>
                 <input type="submit" value="Entrar">
             </form>
@@ -153,9 +153,6 @@
             </div>
         </div>
     </div>
-
-  <script src="{% static 'js/toggle-forms.js' %}"></script>
-
 
   <!--
   <div class="form-container">
@@ -177,6 +174,9 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+
+  <!--animacao toggle-->
+  <script src="{% static 'js/toggle-forms.js' %}"></script>
 
   <!--Script login/cadastro firebase-->
   <script src="{% static 'js/firebase-scripts.js' %}"></script>  
