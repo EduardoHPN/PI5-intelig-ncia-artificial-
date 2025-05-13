@@ -1,12 +1,91 @@
 <header class="main-header-container">
     <div class="main-header container">
-        <h1>
-            <a class="main-logo" href="/">
-                <i class="fa-solid fa-book-open-reader main-logo-icon"></i>
-                <span class="main-logo-text">
-                    Processos Judiciais 
-                </span>
-            </a>
-        </h1>
+        <div class="main-header container1">
+            <h1>
+                <a class="main-logo" href="/">
+                    <i class="fa-solid fa-book-open-reader main-logo-icon"></i>
+                    <span class="main-logo-text">Processos Judiciais</span>
+                </a>
+            </h1>     
+        </div>
+        <div class="main-header container2">
+            <h2>
+                <a class="main-logo" href="/home">
+                    <span class="main-sobre-text">Home</span>
+                </a>
+            </h2>
+        </div>
+        <div class="main-header container2">
+            <h2>
+                <a class="main-logo" href="#">
+                    <span class="main-sobre-text">Sobre</span>
+                </a>
+            </h2>
+        </div> 
+        <div class="main-header container2">
+            <h2>
+                <a class="main-logo" href="#" id="profile-icon">
+                    <i class="fa-solid fa-circle-user main-logo-icon2"></i>
+                </a>
+                <!-- Dropdown menu -->
+                <div id="logout-menu" class="logout-menu">
+                    <a href="/">Logout</a>
+                </div>
+            </h2>
+        </div> 
     </div>
 </header>
+
+<!-- Add some styles and scripts here -->
+<style>
+
+    /* Estilos do menu de logout */
+    .logout-menu {
+        display: none;
+        position: absolute;
+        top: 40px;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;  /* Ajusta o tamanho da fonte do menu */
+    }
+
+    .logout-menu a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .logout-menu a:hover {
+        background-color: #f4f4f4;
+    }
+
+    /* Ajustar posição do menu quando o perfil for clicado */
+    #profile-icon {
+        position: relative;
+    }
+</style>
+
+<script>
+    // Script para mostrar/esconder o menu de logout ao clicar no ícone de perfil
+    document.getElementById('profile-icon').addEventListener('click', function(event) {
+        var menu = document.getElementById('logout-menu');
+        // Alternar a visibilidade do menu
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        
+        // Impedir que o clique no ícone de perfil se propague para o documento, fechando o menu ao clicar fora
+        event.stopPropagation();
+    });
+
+    // Fechar o menu se o usuário clicar em qualquer lugar fora do menu
+    document.addEventListener('click', function(event) {
+        var menu = document.getElementById('logout-menu');
+        var profileIcon = document.getElementById('profile-icon');
+        if (!profileIcon.contains(event.target)) {
+            menu.style.display = 'none';
+        }
+    });
+</script>
