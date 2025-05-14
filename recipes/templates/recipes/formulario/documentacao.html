@@ -21,19 +21,36 @@
             background-color: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
         .form-label {
             font-weight: 600;
         }
 
+        textarea, .form-control, .form-select {
+            border-radius: 12px;
+            border: 1px solid #ced4da;
+            box-shadow: none;
+            padding: 12px;
+            transition: all 0.3s ease-in-out;
+        }
+
         textarea {
             resize: vertical;
         }
 
+        .form-control:focus, .form-select:focus {
+            border-color: #6c757d;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        }
+
         .accordion-button:focus {
             box-shadow: none;
+        }
+
+        .accordion-button {
+            border-radius: 8px;
         }
 
         .required-label::after {
@@ -41,6 +58,28 @@
             color: red;
             margin-left: 4px;
         }
+
+        .btn {
+            border-radius: 12px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            font-size: 0.95rem;
+            margin-left: 8px;
+        }
+
     </style>
 </head>
 
@@ -101,8 +140,6 @@
                                 </div>
 
                                 {{ form.tese_juridica_apoio|as_crispy_field }}
-
-                                <label class="form-label mt-3">Julgado Específico:</label>
                                 {{ form.julgado_especifico|as_crispy_field }}
                             </div>
                         </div>
