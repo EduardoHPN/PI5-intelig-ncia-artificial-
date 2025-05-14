@@ -1,68 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            font-size: 12pt;
-        }
-        h1 {
-            text-align: center;
-        }
-        .paragrafo {
-            margin-top: 30px;
-            text-align: justify;
-            white-space: pre-line;
-        }
-        .paragrafo1, .paragrafo2, .paragrafo3 {
-            margin-top: 30px;
-        }
-        .paragrafo2 {
-            margin-left: 20px;
-        }
-        .paragrafo3 {
-            margin-left: 20px;
-        }
-        .titulo {
-            font-size: 14pt;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+      body {
+        font-family: "Times New Roman", serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        padding: 30px;
+        margin: 0;
+      }
+      h1 {
+        text-align: center;
+        font-size: 16pt;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+      .paragrafo {
+        text-align: justify;
+        white-space: pre-line;
+        text-indent: 1.25cm;
+        margin-top: 20px;
+      }
+      .titulo {
+        font-size: 14pt;
+        font-weight: bold;
+        margin-top: 30px;
+        text-align: left;
+        margin-bottom: 10px;
+        text-indent: 0;
+      }
+      .paragrafo1, .paragrafo2, .paragrafo4, .paragrafo6 {
+        margin-top: 30px;
+      }
+      .paragrafo2, .paragrafo3, .paragrafo5 {
+        margin-left: 20px;
+      }
+      /* Evitar negrito no conteúdo do paragrafo3 */
+      .paragrafo3 .titulo {
+        font-weight: normal;
+      }
+      /* Linha de separação entre seções */
+      .linha-separacao {
+        border-top: 1px solid #000;
+        margin: 20px 0;
+      }
+      .espaco-topo {
+        margin-top: 20px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Petição Gerada</h1>
 
     <div class="paragrafo1">
-        <div class="titulo">1.0 - Parágrafo 1</div>
-        <div class="paragrafo">{{ paragrafo1 }}</div>
+      <div class="titulo">1.0 - Fatos e Qualificação do Acusado</div>
+      <div class="paragrafo">{{ paragrafo1 }}</div>
     </div>
 
     <div class="paragrafo2">
-        <div class="titulo">2.0 - Parágrafo 2</div>
-        <div class="paragrafo">{{ paragrafo2 }}</div>
+      <div class="titulo">2.0 - Defesa Preliminar e Síntese Fática</div>
+      <div class="paragrafo">{{ paragrafo2 }}</div>
     </div>
 
-    <div class="paragrafo3">
-        <div class="titulo">3.0 - Argumentação Jurídica</div>
-        <div class="paragrafo">{{ paragrafo3 }}</div>
-    </div>
+    <div class="linha-separacao"></div>
+
+    {% for titulo, texto in paragrafo3.items %}
+      <div class="paragrafo3">
+        <div class="titulo">{{ titulo }}</div>
+        <div class="paragrafo">{{ texto }}</div>
+      </div>
+    {% endfor %}
+
+    <div class="linha-separacao"></div>
 
     <div class="paragrafo4">
-        <div class="titulo">4.0 - Parágrafo 4</div>
-        <div class="paragrafo">{{ paragrafo4 }}</div>
+      <div class="titulo">4.0 - Pedidos e Considerações Finais</div>
+      <div class="paragrafo">{{ paragrafo4 }}</div>
     </div>
 
-    <div class="paragrafo5">
-        <div class="titulo">5.0 - Parágrafo 5</div>
-        <div class="paragrafo">{{ paragrafo5 }}</div>
-    </div>
+    {% for titulo, texto in paragrafo5.items %}
+      <div class="paragrafo3">
+        <div class="titulo">{{ titulo }}</div>
+        <div class="paragrafo">{{ texto }}</div>
+      </div>
+    {% endfor %}
+
+    <div class="linha-separacao"></div>
 
     <div class="paragrafo6">
-        <div class="titulo">6.0 - Parágrafo 6</div>
-        <div class="paragrafo">{{ paragrafo6 }}</div>
+      <div class="titulo">6.0 - Encerramento e Assinatura</div>
+      <div class="paragrafo">{{ paragrafo6 }}</div>
     </div>
-</body>
+  </body>
 </html>
