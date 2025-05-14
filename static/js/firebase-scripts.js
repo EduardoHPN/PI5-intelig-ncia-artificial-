@@ -27,61 +27,83 @@
       }
       return cookieValue;
     }
+
+    function aut(user_cred){
+      const user = user_cred;
+      const uid_ = user.uid;
   
-    // Captura o formulário e adiciona evento de submit
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", function(e) {
-      e.preventDefault(); // Evita recarregar a página
-  
-      const email = document.getElementById("emailLogin").value;
-      const senha = document.getElementById("senhaLogin").value;
-  
-      firebase.auth().signInWithEmailAndPassword(email, senha)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        const uid = user.uid;
-    
-        // Enviar UID para o backend
-        fetch("/autenticar/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")  // se usar CSRF
-          },
-          body: JSON.stringify({ uid: uid })
-        })
-        .then(response => {
-          if (response.redirected) {
-            window.location.href = response.url;  // redireciona se for o caso
-          }
-        });
+      // Enviar UID para o backend
+      fetch("/autenticar/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")  // se usar CSRF
+        },
+        body: JSON.stringify({ uid: uid_ })
       })
-      .catch((error) => {
-        alert("Erro ao fazer login");
-        console.error(error);
-      });    
-    });
-
-    // Formulário de cadastro
-    const cadastroForm = document.getElementById("cadastroForm");
-    cadastroForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const email = document.getElementById("emailCad").value;
-      const senha = document.getElementById("senhaCad").value;
-      const confirmarSenha = document.getElementById("confirmarSenhaCad").value;
-
-      if (senha !== confirmarSenha) {
-        alert("As senhas não coincidem!");
-        return;
-      }
-
-      firebase.auth().createUserWithEmailAndPassword(email, senha)
+      .then(response => {
+        if (response.redirected) {
+          window.location.href = response.url;  // redireciona se for o caso
+        }
+      });
+    }
+  
+    function login(){
+      //Captura o formulário e adiciona evento de submit
+      const loginForm = document.getElementById("loginForm");
+      loginForm.addEventListener("submit", function(e) {
+        e.preventDefault(); // Evita recarregar a página
+    
+        const email = document.getElementById("emailLogin").value;
+        const senha = document.getElementById("senhaLogin").value;
+    
+        firebase.auth().signInWithEmailAndPassword(email, senha)
         .then((userCredential) => {
-          alert("Cadastro realizado com sucesso!");
-          window.location.href = "/home/";
+          aut(userCredential.user)
         })
         .catch((error) => {
-          alert("Erro ao cadastrar: " + error.message);
-        });
+          alert("Erro ao fazer login");
+          console.error(error);
+        });    
+      });
+    }
+
+    function cadastro(){
+      // Formulário de cadastro
+      const cadastroForm = document.getElementById("cadastroForm");
+      cadastroForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById("emailCad").value;
+        const senha = document.getElementById("senhaCad").value;
+        const confirmarSenha = document.getElementById("confirmarSenhaCad").value;
+
+        if (senha !== confirmarSenha) {
+          alert("As senhas não coincidem!");
+          return;
+        }
+
+        firebase.auth().createUserWithEmailAndPassword(email, senha)
+          .then((userCredential) => {
+            alert("Cadastro realizado com sucesso!");
+            aut(userCredential.user)
+          })
+          .catch((error) => {
+            alert("Erro ao cadastrar: " + error.message);
+          });
+      });
+    }
+
+  function logoutFirebase() {
+        firebase.auth().signOut().then(() => {
+            // Apaga o cookie
+            document.cookie = "firebase_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+
+            // Redireciona para o backend
+            window.location.href = "/logout/";
+    }).catch((error) => {
+        console.error("Erro ao deslogar:", error);
     });
+    }
+
+    

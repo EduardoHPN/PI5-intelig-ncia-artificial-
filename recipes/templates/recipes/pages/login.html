@@ -5,7 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  <link rel="stylesheet" href="{% static 'rrecipes/css/loginstyle.css' %}">
+  <link rel="stylesheet" href="{% static 'recipes/css/loginstyle.css' %}">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+  <!--Script login/cadastro firebase-->
+  <script src="{% static 'js/firebase-scripts.js' %}"></script>  
   <title>Login do Usuário</title>
 </head>
 
@@ -23,7 +28,7 @@
                 <input type="email" id="emailCad" placeholder="E-mail" required>
                 <input type="password" id="senhaCad" placeholder="Senha" required>
                 <input type="password" id="confirmarSenhaCad" placeholder="Confirme a Senha" required>
-                <input type="submit" value="Cadastrar">
+                <input type="submit" value="Cadastrar" onclick="cadastro()">
             </form>
         </div>
         <div class="form-container sign-in">
@@ -38,7 +43,7 @@
                 <input type="email" id="emailLogin" placeholder="E-mail" required>
                 <input type="password" id="senhaLogin" placeholder="Senha" required>
                 <a href="#">Esqueceu a senha?</a>
-                <input type="submit" value="Entrar">
+                <input type="submit" value="Entrar" onclick="login()">
             </form>
         </div>
         <div class="toggle-container">
@@ -56,15 +61,7 @@
             </div>
         </div>
     </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
-
-  <!--animacao toggle-->
-  <script src="{% static 'js/toggle-forms.js' %}"></script>
-
-  <!--Script login/cadastro firebase-->
-  <script src="{% static 'js/firebase-scripts.js' %}"></script>  
+    <!--animacao toggle-->
+    <script src="{% static 'js/toggle-forms.js' %}"></script>
 </body>
 </html>

@@ -108,6 +108,35 @@ body {
 .main-logo-icon2 {
     font-size: 3rem;
 }
+
+/* Estilos do menu de logout */
+.logout-menu {
+        display: none;
+        position: absolute;
+        top: 40px;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        font-size: 1rem;  /* Ajusta o tamanho da fonte do menu */
+    }
+
+    .logout-menu a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .logout-menu a:hover {
+        background-color: #f4f4f4;
+    }
+
+    /* Ajustar posição do menu quando o perfil for clicado */
+    #profile-icon {
+        position: relative;
+    }
 /*HEADER.HTML*/
 
 

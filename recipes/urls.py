@@ -5,6 +5,7 @@ from recipes.views import *
 urlpatterns = [
     path('home/', home, name ='home'),
     path('', Login),
+    path('logout/', logout),
     path('cadastro/', Cadastro),
     path('recipes/3/', Penal),
     path('recipes/2/', EmBreve),

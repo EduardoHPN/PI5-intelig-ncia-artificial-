@@ -1,5 +1,6 @@
 import re
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout as django_logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
@@ -37,7 +38,6 @@ def autenticar_usuario(request):
             return JsonResponse({'error': 'JSON inválido'}, status=400)
 
     return JsonResponse({'error': 'Método não permitido'}, status=405)
-
 
 
 def home(request):
@@ -81,6 +81,13 @@ def EmBreve(request):
 
 def Login(request):
     return render(request, 'recipes/pages/login.html', {})
+
+def logout(request):
+    request.session.flush()
+    response = redirect('/')
+    response.delete_cookie('firebase_token')
+    django_logout(request)
+    return response
 
 def Cadastro(request):
     return render(request, 'recipes/pages/cadastro.html', {})
