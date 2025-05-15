@@ -1,0 +1,45 @@
+<div class="progress-bar">
+    <div id="progress" class="progress-fill"></div>
+</div>
+
+<style>
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background-color: #4f46e5;
+    transition: width 0.4s ease;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const stages = [ 
+        'recipes/3', 
+        'recipes/defesa-preliminar', 
+        'recipes/arg-juridica', 
+        'recipes/pedido', 
+        'recipes/documentacao'
+    ];
+    // Extrai o caminho sem a barra inicial e final
+    const currentPath = window.location.pathname.replace(/^\/|\/$/g, '');
+
+    // Verifica a posição atual do usuário na jornada
+    const currentIndex = stages.indexOf(currentPath);
+    // Calcula a porcentagem corretamente
+    const progressPercentage = ((currentIndex + 1) / stages.length ) * 100;
+    
+    const progressBar = document.getElementById("progress");
+    if (progressBar && currentIndex >= 0) {
+        progressBar.style.width = progressPercentage + "%";
+    }
+});
+</script>
