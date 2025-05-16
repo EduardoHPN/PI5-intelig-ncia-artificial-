@@ -206,14 +206,14 @@ h6 {
 
 .main-content-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: var(--spacing-gutter-large);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-gutter-medium);
 }
+
 .main-content-list.container{
-    max-width: 75%;
-    margin: 0 auto;
     padding: 50px;
 }
+
 .recipe {
     background: var(--color-white);
     box-shadow: -5px 5px 10px rgba(0, 0, 0, .2);
@@ -221,11 +221,11 @@ h6 {
     transform: scale(1);
     border-radius: .4rem;
     overflow: hidden;
-    margin: 5%;
+    width: 100%;
 }
 
 .recipe img {
-    max-width: 100%;
+    width: 100%;
 }
 
 .recipe-list-item {
@@ -273,7 +273,6 @@ h6 {
     display: flex;
     flex-flow: row wrap;
     margin-bottom: 2rem;
-
     padding: var(--spacing-gutter-medium);
     background: var(--color-gray-1);
 }
