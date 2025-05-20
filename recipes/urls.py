@@ -11,6 +11,7 @@ urlpatterns = [
     path('recipes/2/', EmBreve),
     path('recipes/1/', EmBreve),
     path('autenticar/', autenticar_usuario),
+    path('recipes/generate-pdf/', relotorio, name='generate_pdf'),
     path('recipes/arg-juridica/', ArgJuridica, name='argju'),#form 3
     path('recipes/pedido/', pedido, name='pedido'),#form 4
     path('recipes/documentacao/', documentos, name='documentos'),#form 5

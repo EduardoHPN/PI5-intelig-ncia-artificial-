@@ -84,7 +84,7 @@
         <div class="form-container">
             <h2 class="text-center mb-4">Documentação e Jurisprudência</h2>
 
-            <form method="POST" novalidate>
+            <form id="doc-form" method="POST" action="{% url 'generate_pdf' %}" novalidate>
                 {% csrf_token %}
 
                 <div class="accordion" id="accordionDocumentacao">
@@ -146,6 +146,12 @@
         </div>
     </div>
 
+    <!-- overlay de geração de PDF -->
+    <div id="pdf-loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <div class="loading-complete hidden">✅ Concluído!</div>
+    </div>
+
 
     <!-- Scripts Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -153,6 +159,7 @@
     <script src="{% static 'js/form-salvar.js' %}"></script>
     <link rel="stylesheet" href="{% static 'recipes/css/forms-style.css' %}">
     <link rel="stylesheet" href="{% static 'recipes/css/styles.css' %}">
+    <script src="{% static 'js/form-pdf.js' %}"></script>
     
 </body>
 
