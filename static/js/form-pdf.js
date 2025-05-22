@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const TEST_MODE = false;  // ← Mantenha true para testes, false em produção
+  const TEST_MODE = true;  // ← Mantenha true para testes, false em produção
 
   const form = document.getElementById("doc-form");
   if (!form) return;
