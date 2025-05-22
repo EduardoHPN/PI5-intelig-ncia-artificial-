@@ -83,8 +83,8 @@
     <div class="container">
         <div class="form-container">
             <h2 class="text-center mb-4">Documentação e Jurisprudência</h2>
-
-            <form id="doc-form" method="POST" action="{% url 'generate_pdf' %}" novalidate>
+ 
+            <form id="doc-form" method="POST" novalidate>
                 {% csrf_token %}
 
                 <div class="accordion" id="accordionDocumentacao">
