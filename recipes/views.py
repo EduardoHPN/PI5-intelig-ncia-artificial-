@@ -9,6 +9,8 @@ from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from io import BytesIO
 from django.http import HttpResponse
+import traceback
+from django.views.decorators.http import require_POST
 
 from recipes.scripts import *
 
@@ -320,45 +322,65 @@ def string_para_dicionario(texto: str) -> dict:
     return dicionario
 
 
-def relotorio(uid):
-        cliente1 = buscar_clientes_por_uid(uid)
-        cliente2 = buscar_clientes_por_uid2(uid)
-        cliente3 = buscar_clientes_por_uid3(uid)
-        cliente4 = buscar_clientes_por_uid4(uid)
-        cliente5 = buscar_clientes_por_uid5(uid)
+@csrf_exempt
+@require_POST
+def relotorio(request):
+    uid = request.session.get('uid')
+    if not uid:
+        return JsonResponse({'error': 'Usuário não autenticado'}, status=400)
+
+    # 1) busca todos os clientes
+    cliente1 = buscar_clientes_por_uid(uid)
+    cliente2 = buscar_clientes_por_uid2(uid)
+    cliente3 = buscar_clientes_por_uid3(uid)
+    cliente4 = buscar_clientes_por_uid4(uid)
+    cliente5 = buscar_clientes_por_uid5(uid)
+
+    # 2) checa quais estão faltando
+    missing = []
+    if cliente1 is None: missing.append("Formulário Parágrafo 1")
+    if cliente2 is None: missing.append("Formulário Defesa Preliminar")
+    if cliente3 is None: missing.append("Formulário Argumentação Jurídica")
+    if cliente4 is None: missing.append("Formulário Pedido")
+    if cliente5 is None: missing.append("Formulário Documentação")
+
+    if missing:
+        # 3) retorna erro amigável para o frontend
+        return JsonResponse({
+            'error': 'Dados incompletos',
+            'detail': 'Você precisa preencher: ' + ', '.join(missing)
+        }, status=400)
+
+    try:
+        # 4) só monta scripts se todos existirem
         paragrafo1 = montar_script(cliente1)
-        paragrafo2 = montar_script2(cliente2, paragrafo1) 
+        paragrafo2 = montar_script2(cliente2, paragrafo1)
         paragrafo3 = montar_script3(cliente3, paragrafo2)
         paragrafo4 = montar_script4(cliente4, paragrafo3)
         paragrafo5 = montar_script5(cliente5, paragrafo3)
         paragrafo6 = scriptfinal(paragrafo1, paragrafo2)
 
-
-        resultado = string_para_dicionario(paragrafo3)
-        resultado2 = string_para_dicionario(paragrafo5)
-        print("gerando pdf")
-        # Gera HTML com os dois parágrafos
+        # renderiza o HTML
         html = render_to_string('recipes/pdf_template.html', {
             'paragrafo1': paragrafo1,
             'paragrafo2': paragrafo2,
-            'paragrafo3': resultado,
+            'paragrafo3': string_para_dicionario(paragrafo3),
             'paragrafo4': paragrafo4,
-            'paragrafo5': resultado2,
+            'paragrafo5': string_para_dicionario(paragrafo5),
             'paragrafo6': paragrafo6,
         })
 
-        # Gera PDF a partir do HTML
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="peticao_completa.pdf"'
 
-        pisa_status = pisa.CreatePDF(
-            src=html,
-            dest=response,
-        )
-
+        pisa_status = pisa.CreatePDF(src=html, dest=response)
         if pisa_status.err:
-            return HttpResponse('Erro ao gerar PDF', status=500)
+            return JsonResponse({'error': 'Erro ao gerar PDF'}, status=500)
 
         return response
+
+    except Exception:
+        traceback.print_exc()
+        return JsonResponse({'error': 'Erro interno ao processar PDF'}, status=500)
 
 

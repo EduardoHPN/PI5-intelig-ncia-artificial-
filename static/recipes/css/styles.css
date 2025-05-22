@@ -209,9 +209,11 @@ h6 {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-gutter-medium);
 }
+
 .main-content-list.container{
     padding: 50px;
 }
+
 .recipe {
     background: var(--color-white);
     box-shadow: -5px 5px 10px rgba(0, 0, 0, .2);
@@ -223,7 +225,7 @@ h6 {
 }
 
 .recipe img {
-    max-width: 100%;
+    width: 100%;
 }
 
 .recipe-list-item {
@@ -271,7 +273,6 @@ h6 {
     display: flex;
     flex-flow: row wrap;
     margin-bottom: 2rem;
-
     padding: var(--spacing-gutter-medium);
     background: var(--color-gray-1);
 }
@@ -372,4 +373,58 @@ h6 {
 /* Estilizando o canto (em layouts com rolagem horizontal e vertical) */
 ::-webkit-scrollbar-corner {
     background-color: #f1f1f1;
+}
+
+
+/* overlay cobrindo toda a tela */
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* círculo giratório */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid var(--color-gray-2);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* mensagem de concluído */
+.loading-complete {
+  font-size: 3rem;
+  font-weight: 500;
+  color: #41ff6d;
+}
+
+/* botão de fechar no overlay */
+.overlay-close-btn {
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  color: var(--color-white);
+  cursor: pointer;
+  z-index: 10000;
+}
+.overlay-close-btn:hover {
+  color: var(--color-error-dark);
 }
