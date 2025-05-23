@@ -20,3 +20,4 @@ class Migration(migrations.Migration):
             field=models.CharField(blank=True, choices=[('inexistencia_fato', 'Inexistência do fato'), ('fato_atipico', 'Fato atípico'), ('excludente_ilicitude', 'Excludente de ilicitude'), ('excludente_culpabilidade', 'Excludente de culpabilidade'), ('ausencia_autoria', 'Ausência de indícios suficientes de autoria'), ('outro', 'Outro (especificar)')], max_length=255, null=True),
         ),
     ]
+

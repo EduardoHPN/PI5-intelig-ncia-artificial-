@@ -10,7 +10,7 @@ def buscar_clientes_por_uid(uid):
     return ClientParagrafOne.objects.filter(uid=uid).first()
 
 
-def montar_script(cliente):
+def montar_script(cliente): 
     numero_processo = cliente.ProcessNumer
     vara_criminal = cliente.NumberStickCriminal
     comarca = cliente.CityComarc
@@ -219,6 +219,7 @@ Requisitos:
 - Tom persuasivo e defensivo.
 NAO VOU COLOCAR NEM DATA NEM NOME DO ADVOGADO nao coloque nada entre parenteses isso vai ser ligo pelo juiz
 SEJA CONEXO COM ESSE PARAGRAFO: {paragrafo}
+-Não pode ter mais topicos apenas o 3.0 3.1 3.2 3.3 e 3.4, e nao pode ter subtopicos
     """
 
     print(f"\n\nPrompt para IA:\n{prompt}")
