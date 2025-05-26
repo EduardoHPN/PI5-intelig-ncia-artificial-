@@ -1,191 +1,67 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login do Usuário</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0e0e0f, #ACB6E5);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .form-container {
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 500px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      transition: 0.3s;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin: 15px 0 5px;
-    }
-
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    input[type="submit"] {
-      width: 100%;
-      padding: 15px;
-      background: #0e0e0f;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      margin-top: 25px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    input[type="submit"]:hover {
-      background: #0e0e0f;
-    }
-
-    .link {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .link a {
-      text-decoration: none;
-      color: #007BFF;
-    }
-
-    .link a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .form-container {
-        padding: 30px 20px;
-      }
-
-      h2 {
-        font-size: 24px;
-      }
-
-      input[type="email"],
-      input[type="password"],
-      input[type="submit"] {
-        font-size: 14px;
-        padding: 12px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="form-container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" name="senha" required>
-
-      <input type="submit" value="Entrar">
-    </form>
-    <div class="link">
-      <a href="/cadastro/">Não tem conta? Cadastre-se</a>
-    </div>
-  </div>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'recipes/css/loginstyle.css' %}">
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+  <!--Script login/cadastro firebase-->
+  <script src="{% static 'js/firebase-scripts.js' %}"></script>  
+  <title>Login do Usuário</title>
+</head>
 
-  <script>
-    // Configuração do Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyDUHVA75qtKwKFGQDdMKb1S0QaH8q4OhcM",
-      authDomain: "projetointegrador5-27fb6.firebaseapp.com",
-      projectId: "projetointegrador5-27fb6",
-      storageBucket: "projetointegrador5-27fb6.appspot.com",
-      messagingSenderId: "331147732123",
-      appId: "1:331147732123:web:f24f497c6f856c30ee123e",
-      measurementId: "G-4W95E8MNBG"
-    };
-  
-    // Inicializa o Firebase
-    firebase.initializeApp(firebaseConfig);
-  
-    // Função para pegar o CSRF token
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-  
-    // Captura o formulário e adiciona evento de submit
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", function(e) {
-      e.preventDefault(); // Evita recarregar a página
-  
-      const email = document.getElementById("email").value;
-      const senha = document.getElementById("senha").value;
-  
-      firebase.auth().signInWithEmailAndPassword(email, senha)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        const uid = user.uid;
-    
-        // Enviar UID para o backend
-        fetch("/autenticar/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")  // se usar CSRF
-          },
-          body: JSON.stringify({ uid: uid })
-        })
-        .then(response => {
-          if (response.redirected) {
-            window.location.href = response.url;  // redireciona se for o caso
-          }
-        });
-      })
-      .catch((error) => {
-        alert("Erro ao fazer login");
-        console.error(error);
-      });    
-    });
-  </script>  
+<body>
+  <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="cadastroForm">
+                <h1>Cadastre-se</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>ou utilize seu E-mail</span>
+                <input type="email" id="emailCad" placeholder="E-mail" required>
+                <input type="password" id="senhaCad" placeholder="Senha" required>
+                <input type="password" id="confirmarSenhaCad" placeholder="Confirme a Senha" required>
+                <input type="submit" value="Cadastrar" onclick="cadastro()">
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Fazer Login</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>ou utilize seu E-mail</span>
+                <input type="email" id="emailLogin" placeholder="E-mail" required>
+                <input type="password" id="senhaLogin" placeholder="Senha" required>
+                <a href="#">Esqueceu a senha?</a>
+                <input type="submit" value="Entrar" onclick="login()">
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Bem-vindo de volta!</h1>
+                    <p>Entre com os seus dados para acessar nossas ferramentas</p>
+                    <button class="hidden" id="login">Login</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Olá, Seja bem-vindo!</h1>
+                    <p>Registre-se com seus dados pessoais para acessar nossas ferramentas</p>
+                    <button class="hidden" id="register">Cadastre-se</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--animacao toggle-->
+    <script src="{% static 'js/toggle-forms.js' %}"></script>
 </body>
 </html>

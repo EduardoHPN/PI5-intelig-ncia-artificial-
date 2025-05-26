@@ -39,7 +39,7 @@
 * {
     padding: 0;
     margin: 0;
-    box_sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
@@ -281,4 +281,3 @@ h6 {
 .main-logo-icon{
     margin-right: 1rem;
 }
-
