@@ -230,7 +230,7 @@ SEJA CONEXO COM ESSE PARAGRAFO: {paragrafo}
 
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt, generation_config={
-        "temperature": 0.3
+        "temperature": 0.4
     })
 
     return response.text
@@ -285,7 +285,7 @@ Requisitos para o parágrafo:
 
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt, generation_config={
-        "temperature": 0.3
+        "temperature": 0.4
     })
 
     return response.text
@@ -343,7 +343,7 @@ e use com base o 3 paragrafo {paragrafo}
 
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt, generation_config={
-        "temperature": 0.3
+        "temperature": 0.4
     })
 
     return response.text
@@ -366,7 +366,7 @@ faça um paragrafo final para a petição penal com essa base de conhecimento: 6
     
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt, generation_config={
-        "temperature": 0.3
+        "temperature": 0.4
     })
 
     return response.text
