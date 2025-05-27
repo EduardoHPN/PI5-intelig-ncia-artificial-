@@ -55,7 +55,7 @@ O parágrafo deve conter:
 
     model = genai.GenerativeModel("gemini-1.5-flash")  # ou "gemini-pro"
     response = model.generate_content(texto, generation_config={
-        "temperature": 0.3
+        "temperature": 0.4
     })
 
     return response.text
@@ -123,7 +123,7 @@ com base também nesse exemplo:
 
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt, generation_config={
-        "temperature": 0.3
+        "temperature": 0.4
     })
 
     return response.text
