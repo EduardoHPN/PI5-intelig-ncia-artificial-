@@ -407,6 +407,28 @@ def relotorio(request):
         print("Parágrafos montados com sucesso.")
         print("Renderizando HTML...")
 
+        # --- NOVO BLOCO: Salvar petição gerada em .txt ---
+        peticao_texto = "\n\n".join([
+            paragrafo1,
+            paragrafo2,
+            paragrafo3,
+            paragrafo4,
+            paragrafo5,
+            paragrafo6
+        ])
+
+        import os
+        from datetime import datetime
+
+        os.makedirs("peticoes_geradas", exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"peticoes_geradas/peticao_{uid}_{timestamp}.txt"
+        
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(peticao_texto)
+
+        print(f"Petição salva em: {filename}")
+
         html = render_to_string('recipes/pdf_template.html', {
             'paragrafo1': paragrafo1,
             'paragrafo2': paragrafo2,
