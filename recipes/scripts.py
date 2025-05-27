@@ -54,7 +54,9 @@ O parágrafo deve conter:
     print(f'\n\n\n\n{texto}')
 
     model = genai.GenerativeModel("gemini-1.5-flash")  # ou "gemini-pro"
-    response = model.generate_content(texto)
+    response = model.generate_content(texto, generation_config={
+        "temperature": 0.3
+    })
 
     return response.text
 
@@ -120,7 +122,9 @@ com base também nesse exemplo:
     print(f'\n\nPrompt enviado ao modelo:\n{prompt}')
 
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, generation_config={
+        "temperature": 0.3
+    })
 
     return response.text
 
@@ -225,7 +229,9 @@ SEJA CONEXO COM ESSE PARAGRAFO: {paragrafo}
     print(f"\n\nPrompt para IA:\n{prompt}")
 
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, generation_config={
+        "temperature": 0.3
+    })
 
     return response.text
 
@@ -278,7 +284,9 @@ Requisitos para o parágrafo:
     print(f'\n\nPrompt enviado ao modelo:\n{prompt}')
 
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, generation_config={
+        "temperature": 0.3
+    })
 
     return response.text
 
@@ -334,7 +342,9 @@ e use com base o 3 paragrafo {paragrafo}
     print(f'\n\nPrompt enviado ao modelo:\n{prompt}')
 
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, generation_config={
+        "temperature": 0.3
+    })
 
     return response.text
 
@@ -346,7 +356,7 @@ def scriptfinal(relatorio1, relatorio2):
     prompt = f"""
     com base nas informações contidas aqui: {relatorio2}
     e essa: {relatorio1}
-    LEMRBADNO QUE HOJE È DIA {data_atual}
+    LEMRBRANDO QUE HOJE É DIA {data_atual}
 faça um paragrafo final para a petição penal com essa base de conhecimento: 6.0 - ASSINATURA
 [Local, data] de hoje pf
 
@@ -355,6 +365,8 @@ faça um paragrafo final para a petição penal com essa base de conhecimento: 6
 [OAB/UF Nº]"""
     
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, generation_config={
+        "temperature": 0.3
+    })
 
     return response.text
