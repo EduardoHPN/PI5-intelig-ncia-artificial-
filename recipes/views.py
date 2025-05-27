@@ -2,6 +2,7 @@ import re
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as django_logout
 from django.http import JsonResponse
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from recipes.forms import *
@@ -234,6 +235,7 @@ def pedido(request):
         form = PedidoDefesaPenalForm()
         return render(request, 'recipes/formulario/Pedido.html', {'form': form})
 
+    print("jaslkdjasldkjasldkjaslkdj")
     form = PedidoDefesaPenalForm(request.POST)
     if form.is_valid():
         cliente = form.save(commit=False)
@@ -261,26 +263,51 @@ def PrimeiroParagrado(resquest):
     
 
 def documentos(request):
+    print("Início da função documentos")
+
     if not request.session.get('autenticado'):
+        print("Usuário não autenticado. Redirecionando para /")
         return redirect('/')
 
     if request.method == "GET":
+        print("Método GET detectado. Exibindo formulário.")
         form = DocumentacaoEJurisprudenciaForm()
         return render(request, 'recipes/formulario/documentacao.html', {'form': form})
 
-    form = DocumentacaoEJurisprudenciaForm(request.POST)
-    if form.is_valid():
-        cliente = form.save(commit=False)
-        uid = request.session.get('uid')
+    print("Método POST detectado. Processando dados do formulário.")
 
-        if not uid:
-            return JsonResponse({'error': 'UID não encontrado na sessão'}, status=400)
+    try:
+        form = DocumentacaoEJurisprudenciaForm(request.POST)
+        if form.is_valid():
+            print("Formulário válido.")
+            cliente = form.save(commit=False)
 
-        cliente.uid = uid
-        cliente.save()
+            uid = request.session.get('uid')
+            if not uid:
+                print("UID não encontrado na sessão.")
+                return JsonResponse({'error': 'UID não encontrado na sessão'}, status=400)
 
-        return relotorio(uid=uid)
-    return render(request, 'recipes/formulario/documentaca.html', {'form': form})
+            cliente.uid = uid
+
+            try:
+                cliente.save()
+                print(f"Cliente salvo com sucesso com UID: {uid}")
+            except Exception as e:
+                print(f"Erro ao salvar cliente: {e}")
+                return JsonResponse({'error': 'Erro ao salvar cliente.'}, status=500)
+
+            # Redireciona para a URL nomeada "relotorio"
+            return redirect(reverse('generate_pdf'))
+
+        else:
+            print("Formulário inválido.")
+            print(form.errors)
+
+    except Exception as e:
+        print(f"Erro inesperado ao processar o formulário: {e}")
+        return JsonResponse({'error': 'Erro inesperado ao processar o formulário.'}, status=500)
+
+    return render(request, 'recipes/formulario/documentacao.html', {'form': form})
 
 
 def string_para_dicionario(texto: str) -> dict:
@@ -323,20 +350,36 @@ def string_para_dicionario(texto: str) -> dict:
 
 
 @csrf_exempt
-@require_POST
 def relotorio(request):
+    print("Início da função relotorio")
+
     uid = request.session.get('uid')
+    print(f"UID da sessão: {uid}")
+
     if not uid:
+        print("UID não encontrado na sessão. Retornando erro.")
         return JsonResponse({'error': 'Usuário não autenticado'}, status=400)
 
-    # 1) busca todos os clientes
-    cliente1 = buscar_clientes_por_uid(uid)
-    cliente2 = buscar_clientes_por_uid2(uid)
-    cliente3 = buscar_clientes_por_uid3(uid)
-    cliente4 = buscar_clientes_por_uid4(uid)
-    cliente5 = buscar_clientes_por_uid5(uid)
+    # 1) Buscar dados dos formulários
+    try:
+        cliente1 = buscar_clientes_por_uid(uid)
+        cliente2 = buscar_clientes_por_uid2(uid)
+        cliente3 = buscar_clientes_por_uid3(uid)
+        cliente4 = buscar_clientes_por_uid4(uid)
+        cliente5 = buscar_clientes_por_uid5(uid)
 
-    # 2) checa quais estão faltando
+        print("Dados buscados com sucesso.")
+        print(f"cliente1: {cliente1}")
+        print(f"cliente2: {cliente2}")
+        print(f"cliente3: {cliente3}")
+        print(f"cliente4: {cliente4}")
+        print(f"cliente5: {cliente5}")
+    except Exception:
+        print("Erro ao buscar os dados dos formulários.")
+        traceback.print_exc()
+        return JsonResponse({'error': 'Erro ao buscar os dados do cliente'}, status=500)
+
+    # 2) Verificar dados faltantes
     missing = []
     if cliente1 is None: missing.append("Formulário Parágrafo 1")
     if cliente2 is None: missing.append("Formulário Defesa Preliminar")
@@ -345,14 +388,15 @@ def relotorio(request):
     if cliente5 is None: missing.append("Formulário Documentação")
 
     if missing:
-        # 3) retorna erro amigável para o frontend
+        print("Formulários faltando:", missing)
         return JsonResponse({
             'error': 'Dados incompletos',
             'detail': 'Você precisa preencher: ' + ', '.join(missing)
         }, status=400)
 
+    # 3) Montar scripts e gerar PDF
     try:
-        # 4) só monta scripts se todos existirem
+        print("Montando parágrafos...")
         paragrafo1 = montar_script(cliente1)
         paragrafo2 = montar_script2(cliente2, paragrafo1)
         paragrafo3 = montar_script3(cliente3, paragrafo2)
@@ -360,7 +404,31 @@ def relotorio(request):
         paragrafo5 = montar_script5(cliente5, paragrafo3)
         paragrafo6 = scriptfinal(paragrafo1, paragrafo2)
 
-        # renderiza o HTML
+        print("Parágrafos montados com sucesso.")
+        print("Renderizando HTML...")
+
+        # --- NOVO BLOCO: Salvar petição gerada em .txt ---
+        peticao_texto = "\n\n".join([
+            paragrafo1,
+            paragrafo2,
+            paragrafo3,
+            paragrafo4,
+            paragrafo5,
+            paragrafo6
+        ])
+
+        import os
+        from datetime import datetime
+
+        os.makedirs("peticoes_geradas", exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"peticoes_geradas/peticao_{uid}_{timestamp}.txt"
+        
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(peticao_texto)
+
+        print(f"Petição salva em: {filename}")
+
         html = render_to_string('recipes/pdf_template.html', {
             'paragrafo1': paragrafo1,
             'paragrafo2': paragrafo2,
@@ -373,14 +441,16 @@ def relotorio(request):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="peticao_completa.pdf"'
 
+        print("Gerando PDF...")
         pisa_status = pisa.CreatePDF(src=html, dest=response)
         if pisa_status.err:
+            print("Erro ao gerar o PDF.")
             return JsonResponse({'error': 'Erro ao gerar PDF'}, status=500)
 
+        print("PDF gerado com sucesso.")
         return response
 
     except Exception:
+        print("Erro ao montar o PDF:")
         traceback.print_exc()
         return JsonResponse({'error': 'Erro interno ao processar PDF'}, status=500)
-
-
