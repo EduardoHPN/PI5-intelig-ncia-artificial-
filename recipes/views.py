@@ -80,6 +80,8 @@ def Penal(request):
 
 
 def EmBreve(request):
+    if not request.session.get('autenticado'):
+        return redirect('/')
     return render(request, 'recipes/pages/emBreve.html', {})
 
 def Login(request):

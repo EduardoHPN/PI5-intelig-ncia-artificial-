@@ -1,39 +1,38 @@
 :root {
-    --color-primary: #269fe6;
-    --color-primary-hover: #2086c2;
-    --color-primary-dark: #13141f;
-    --color-primary-dark-hover: #212336;
-    --color-primary-light: #d4ecfa;
-    --color-primary-light-hover: #bdd8e7;
+    --color-primary: #3498db; /* Azul moderno Suave */
+    --color-primary-hover: #2980b9;
+    --color-primary-dark: #2c3e50; /* Azul escuro/Grafite para header */
+    --color-primary-dark-hover: #34495e;
+    --color-primary-light: #ecf0f1; /* Cinza bem claro para fundos de cartão ou seções */
+    --color-primary-light-hover: #bdc3c7;
+
     --color-white: #fff;
     --color-black: #000;
-    --color-dark-text: #444;
-    --color-info-light: #cce5ff;
-    --color-debug-light: #cce5ff;
-    --color-success-light: #d4edda;
-    --color-alert-light: #fff3cd;
-    --color-warning-light: #fff3cd;
-    --color-error-light: #f8d7da;
-    --color-info-dark: #4d86c4;
-    --color-debug-dark: #4d86c4;
-    --color-success-dark: #4a9c5d;
-    --color-alert-dark: #927f40;
-    --color-warning-dark: #927f40;
-    --color-error-dark: #da525d;
-    --color-gray-0: #f9f9f9;
-    --color-gray-1: #e0e0e0;
-    --color-gray-2: #c7c7c7;
-    --color-gray-3: #aeaeae;
-    --color-gray-4: #959595;
-    --color-gray-5: #7d7d7d;
-    --color-gray-6: #646464;
-    --color-gray-7: #4b4b4b;
-    --color-gray-8: #323232;
-    --color-gray-9: #191919;
-    --font-primary: sans-serif;
+    --color-dark-text: #34495e; /* Texto principal escuro */
+    --color-light-text: #ecf0f1; /* Texto claro para fundos escuros */
+
+    --color-gray-0: #f8f9fa; /* Fundo geral da página - muito claro */
+    --color-gray-1: #e9ecef; /* Borda sutil ou fundo de cartão alternativo */
+    --color-gray-2: #dee2e6;
+    --color-gray-3: #ced4da;
+    --color-gray-4: #adb5bd; /* Texto secundário */
+    --color-gray-5: #6c757d; /* Ícones ou texto menos importante */
+    --color-gray-6: #495057;
+    --color-gray-7: #343a40;
+    --color-gray-8: #212529;
+    --color-gray-9: #121416;
+
+    --font-primary: 'Roboto', sans-serif; /* Fonte mais moderna e limpa */
     --font-headings: 'Roboto Slab', serif;
-    --spacing-gutter-medium: 3rem;
+
+    --spacing-gutter-small: 1.5rem;
+    --spacing-gutter-medium: 2.5rem; /* Espaçamento principal para padding em containers */
     --spacing-gutter-large: 4rem;
+
+    --border-radius-small: .3rem;
+    --border-radius-medium: .5rem; /* Bordas arredondadas para cartões e botões */
+    --box-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -43,241 +42,193 @@
 }
 
 html {
-    font-size: 62.5%
+    font-size: 62.5%; /* 1rem = 10px */
 }
 
 body {
-    font-size: 1.6rem;
-    margin-bottom: 5rem;
+    font-size: 1.6rem; /* Default font size 16px */
     font-family: var(--font-primary);
-    background: var(--color-gray-1);
+    background: var(--color-gray-0);
     color: var(--color-dark-text);
+    line-height: 1.6;
 }
 
-.main-header-container {
-    background: var(--color-primary-dark)
-}
-
+/* Container Principal (se houver um wrapper geral) */
 .container {
-    max-width: 144rem;
+    max-width: 1200px; /* Largura máxima da página */
     margin: 0 auto;
-    margin-bottom: 5rem;
     padding: var(--spacing-gutter-medium);
 }
 
-.main-logo {
-    font-size: 4rem;
-    color: var(--color-white);
-    text-decoration: none;
+/* Cabeçalho */
+.main-header-container { /* Usar esta classe no <header> do HTML */
+    background: var(--color-primary-dark);
+    color: var(--color-light-text);
+    padding: var(--spacing-gutter-small) var(--spacing-gutter-medium);
+    box-shadow: var(--box-shadow-light);
+}
+
+.main-header-container nav { /* Se o <nav> está dentro do header */
     display: flex;
-    flex-flow: row nowrap;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    width: fit-content;
+    max-width: 1200px; /* Alinha com o container principal */
     margin: 0 auto;
 }
 
-.main-logo-icon {
-    margin-right: 2rem;
+.main-logo-text { /* Para o título "Juridico" */
+    font-family: var(--font-headings);
+    font-size: 2.8rem; /* Tamanho do título */
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-white);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: "Roboto Slab", serif;
+/* Estilo para ícone de usuário ou links de navegação (se houver) */
+.main-header-container nav a,
+.main-header-container nav .user-icon { /* Adapte se o ícone não for um link */
+    color: var(--color-light-text);
+    text-decoration: none;
+    font-size: 2rem; /* Tamanho do ícone/link */
+    padding: .8rem;
+    border-radius: var(--border-radius-small);
+    transition: background-color 0.3s ease;
 }
 
-.main-logo-text {
-    font-family: "Roboto Slab", serif;
+.main-header-container nav a:hover,
+.main-header-container nav .user-icon:hover {
+    background-color: var(--color-primary-dark-hover);
 }
 
-
-.search-input,
-.btn-input {
-    border: none;
-    background: none;
-    outline: none;
-    padding: 1rem;
-    transition: all 300ms ease-in-out;
+/* Conteúdo Principal - Grid para os cards */
+.main-content { /* Usar esta classe na tag <main> */
+    padding-top: var(--spacing-gutter-medium);
 }
 
-.form-search {
-
-    border: .2rem solid var(--color-primary-dark);
-    max-width: 64rem;
-    margin: 0 auto;
-    border-radius: .4rem;
-    position: relative;
-    transition: all 300ms ease-in-out;
-}
-
-.search-input {
-    width: 100%;
-    padding-right: 3rem;
-}
-
-.btn-input {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.form-search:focus-within {
-    border-color: var(--color-primary);
-    background-color: var(--color-white);
-
-}
-
-.form-search:focus-within .btn-input {
-    color: var(--color-primary);
-}
-
-
-.btn-input:focus {
-    outline: 1px solid var(--color-primary);
-    background-color: rgba(0, 0, 0, .05);
-}
-
-.main-content {
-    padding-top: 0;
-}
-
-.main-content-list {
+.main-content-list { /* Usar esta classe em uma <div> que envolve os cards */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: var(--spacing-gutter-large);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsivo */
+    gap: var(--spacing-gutter-medium);
 }
 
-.recipe {
+/* Cards de Processo */
+.process-card { /* Usar esta classe para cada card individual */
     background: var(--color-white);
-    box-shadow: -5px 5px 10px rgba(0, 0, 0, .2);
-    transition: all 300ms ease-in-out;
-    transform: scale(1);
-    border-radius: .4rem;
-    overflow: hidden;
-    margin: 5%;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--box-shadow-medium);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Para que o header do card não ultrapasse o border-radius */
+    display: flex;
+    flex-direction: column;
 }
 
-.recipe img {
-    max-width: 100%;
+.process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.recipe-list-item {
-    max-width: 64rem;
+.card-header { /* Header dentro de cada card */
+    padding: var(--spacing-gutter-small) var(--spacing-gutter-medium);
+    background-color: var(--color-primary-light); /* Fundo suave para o header do card */
+    border-bottom: 1px solid var(--color-gray-1);
 }
 
-.recipe-list-item:hover {
-    transform: scale(1.02);
-    box-shadow: -8px 8px 18px rgba(0, 0, 0, .25);
+.card-header h2 {
+    font-family: var(--font-headings);
+    font-size: 2rem;
+    color: var(--color-primary-dark); /* Cor escura para o título do card */
+    margin: 0;
+    font-weight: 600;
 }
 
-.recipe-title-container {
+.card-body { /* Corpo do card */
     padding: var(--spacing-gutter-medium);
-    padding-bottom: 2rem;
+    color: var(--color-gray-6);
+    font-size: 1.5rem;
+    flex-grow: 1; /* Faz o corpo do card ocupar o espaço disponível */
 }
 
-.recipe-author {
-    padding: 0 var(--spacing-gutter-medium);
+.card-footer { /* Footer dentro de cada card, para o botão */
+    padding: var(--spacing-gutter-small) var(--spacing-gutter-medium);
+    background-color: var(--color-gray-0); /* Fundo sutil para o rodapé do card */
+    text-align: right; /* Alinha o botão à direita */
+    border-top: 1px solid var(--color-gray-1);
 }
 
-.recipe-content {
-    padding: var(--spacing-gutter-medium);
-    padding-top: 2rem;
-    margin-bottom: 2.8rem;
+.ver-sobre-button { /* Botão "Ver sobre..." */
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 1rem 1.8rem;
+    text-decoration: none;
+    border-radius: var(--border-radius-small);
+    font-weight: 500;
+    font-size: 1.4rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
 }
 
-.recipe-author-item {
-    color: var(--color-gray-4);
-    margin-right: 1rem;
-    font-style: italic;
+.ver-sobre-button:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Adaptação das cores dos botões "Ver sobre" para serem mais neutras ou usar a cor primária */
+/* Se quiser cores diferentes por card, pode usar :nth-child como antes, mas com as novas variáveis */
+
+/* Exemplo: Todos os botões usam a cor primária (já definido acima) */
+/* Se quiser manter diferenciação sutil: */
+.process-card:nth-of-type(1) .card-header {
+    background-color: #e6f3fa; /* Tom de azul bem claro */
+}
+/* .process-card:nth-of-type(1) .ver-sobre-button {
+    background-color: var(--color-primary);
+} */
+
+.process-card:nth-of-type(2) .card-header {
+    background-color: #e0f2f1; /* Tom de verde/azul claro */
+}
+/* .process-card:nth-of-type(2) .ver-sobre-button {
+    background-color: #26a69a; 
+}
+.process-card:nth-of-type(2) .ver-sobre-button:hover {
+    background-color: #00897b;
+} */
+
+.process-card:nth-of-type(3) .card-header {
+    background-color: #f5f5f5; /* Cinza ainda mais claro */
+}
+/* .process-card:nth-of-type(3) .ver-sobre-button {
+    background-color: var(--color-gray-5);
+}
+.process-card:nth-of-type(3) .ver-sobre-button:hover {
+    background-color: var(--color-gray-6);
+} */
+
+
+/* Rodapé Principal da Página (se houver) */
+.main-footer { /* Usar esta classe no <footer> do HTML */
+    text-align: center;
+    padding: var(--spacing-gutter-medium) 0;
+    margin-top: var(--spacing-gutter-large);
+    background: var(--color-primary-dark);
+    color: var(--color-light-text);
     font-size: 1.4rem;
 }
 
-.recipe-author a {
-    color: var(--color-primary);
-    transition: all 300ms ease-in-out;
-    text-decoration: none;
-}
-
-.recipe-author a:hover {
-    color: var(--color-primary-dark);
-}
-
-.recipe-meta-container {
-    display: flex;
-    flex-flow: row wrap;
-    margin-bottom: 2rem;
-
-    padding: var(--spacing-gutter-medium);
-    background: var(--color-gray-1);
-}
-
-.recipe-meta {
-    display: flex;
-    flex-flow: column nowrap;
-    flex-shrink: 1;
-    flex-grow: 0;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.recipe-meta-title {
-    font-size: 1.6rem;
-}
-
-.recipe-footer a {
-    background: var(--color-primary-dark);
-    display: block;
-    color: var(--color-white);
-    text-decoration: none;
-    text-align: center;
-    padding: 1.5rem var(--spacing-gutter-medium);
-    transition: all 300ms ease-in-out;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-top: 3rem;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden; 
-    }
-
-.recipe-footer a:hover {
-    filter: brightness(2);
-}
-
-
-.main-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--color-primary-dark);
-    color: var(--color-white);
-    padding: 2rem;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden; /* Evita rolagem horizontal */
-}
-
-
 .main-footer a {
-    color: var(--color-white);
+    color: var(--color-primary-light);
     text-decoration: none;
-    transition: all 300ms ease-in-out;
 }
 
 .main-footer a:hover {
-    filter: brightness(.8);
+    text-decoration: underline;
 }
 
-.main-logo-icon{
-    margin-right: 1rem;
-}
+/* Removendo estilos não utilizados ou que conflitam */
+/* Os estilos de .search-input, .btn-input, .form-search foram omitidos
+   pois não parecem se aplicar diretamente à estrutura da imagem inicial.
+   O .recipe-meta-container e .recipe-author também foram omitidos por
+   não terem correspondentes diretos na estrutura simples de card da imagem. */
+/* O footer fixo .recipe-footer a foi transformado em .card-footer com .ver-sobre-button */
