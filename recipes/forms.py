@@ -91,11 +91,26 @@ class DefesaPreliminarForm(forms.ModelForm):
             'mencionar_defesa_futura',
             'tonalidade',
         ]
+        # Opcionalmente, para 'data_fato', você poderia definir o widget aqui também,
+        # mas como a pergunta foca no __init__, vamos ajustar lá.
+        # widgets = {
+        # 'data_fato': forms.DateInput(attrs={'type': 'date'}),
+        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for field_name, field in self.fields.items():
+            if field_name == 'data_fato':
+                # Configuração específica para o campo de data
+                field.widget = forms.DateInput(
+                    attrs={'class': 'form-control', 'type': 'date'},
+                    format='%Y-%m-%d'  # Formato que o input type="date" HTML espera para o valor
+                )
+                # Pula para o próximo campo, pois já tratamos data_fato completamente
+                continue
+
+            # Lógica existente para outros campos
             if isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update({'class': 'form-control', 'rows': 3})
             elif isinstance(field.widget, forms.CheckboxInput):
@@ -103,6 +118,7 @@ class DefesaPreliminarForm(forms.ModelForm):
             elif isinstance(field.widget, forms.Select):
                 field.widget.attrs.update({'class': 'form-select'})
             else:
+                # Para outros inputs como TextInput, EmailInput, NumberInput, etc.
                 field.widget.attrs.update({'class': 'form-control'})
 
 class ArgumentacaoJuridicaForm(forms.ModelForm):
