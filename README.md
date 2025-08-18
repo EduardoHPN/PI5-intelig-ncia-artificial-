@@ -1,1 +1,1 @@
-Esse programa tem como objetivo usar a inteligencia artificial para construção de uma petição judicial, com base em alguns dados que o advogado de defasa informar, é montado uma petição completa com linguagem formal e interlocutiva 
+Esse programa tem como objetivo usar a inteligencia artificial para construção de uma petição judicial, com base em alguns dados que o advogado de defesa informar, é montado uma petição completa com linguagem formal e interlocutiva 
